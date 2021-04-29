@@ -8,7 +8,9 @@ app.use(express.json())
 app.use(require('cors')())
 
 const userRoutes = require('./routes/userRoutes')
+const goalRoutes = require('./routes/goalRoutes')
 app.use('/user', userRoutes)
+app.use('/goal', goalRoutes)
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
