@@ -10,6 +10,13 @@ goalController.create= async (req, res) => {
             date: req.body.date,
             description: req.body.description
         })
+        let user = await models.user.findOne({
+            where: {
+                id: req.headers.authorization
+            }
+        })
+        await user.addGoal(goal)
+        await goal.reload()
         res.json({goal})
     } catch (error) {
         res.json({error})
