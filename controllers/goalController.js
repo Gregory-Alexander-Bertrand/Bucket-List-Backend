@@ -1,5 +1,5 @@
 const models = require('../models')
-
+const jwt = require('jsonwebtoken')
 const goalController = {}
 
 goalController.create= async (req, res) => {
@@ -10,6 +10,7 @@ goalController.create= async (req, res) => {
             date: req.body.date,
             description: req.body.description
         })
+        
         let user = await models.user.findOne({
             where: {
                 id: req.headers.authorization
@@ -17,8 +18,9 @@ goalController.create= async (req, res) => {
         })
         await user.addGoal(goal)
         await goal.reload()
-        res.json({goal})
+        res.json({message: 'goal created'})
     } catch (error) {
+        console.log(error)
         res.json({error})
     }
 }
