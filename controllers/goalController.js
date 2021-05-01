@@ -34,6 +34,19 @@ goalController.getAll = async (req, res) => {
     }
 }
 
+goalController.find = async (req, res) => {
+    try {
+        let goal = await models.goal.findOne({
+            where: {
+                id: req.params.id
+            }
+        })
+        res.json({goal})
+    } catch (error) {
+        res.json({error})
+    }
+}
+
 goalController.delete = async (req, res) => {
     try {
         let finishedGoal = await models.goal.destroy({
