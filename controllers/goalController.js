@@ -76,17 +76,22 @@ goalController.update = async (req, res) => {
     }
 }
 
-goalController.mine = async (req, res) => {
+goalController.getUserGoal = async (req, res) => {
     try {
-        const user = await models.user.findOne({
+        const encryptedId = req.headers.authorization
+        const decryptedId = await jwt.verify(encryptedId, process.env.JWT_SECRET)
+        console.log(decryptedId.userId)
+        let user = await models.user.findOne({
             where: {
-                id: req.headers.authorization
-            }
+                id: decryptedId.userId
+            },
+            include:{model: models.goal}
         })
-        const goals = await user.getGoals()
-        res.json({ goals })
+
+        let goals = await user.getGoals()
+        res.json({goals})
     } catch (error) {
-        console.log(error)
+        res.json({error})
     }
 }
 
