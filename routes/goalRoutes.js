@@ -7,5 +7,6 @@ goalRoutes.get('/', goalController.getAll)
 goalRoutes.get('/:id', goalController.find)
 goalRoutes.delete('/:id', goalController.delete)
 goalRoutes.put('/:id', goalController.update)
+goalRoutes.get('/mine', goalController.mine)
 
 module.exports = goalRoutes

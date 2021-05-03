@@ -28,6 +28,7 @@ goalController.create= async (req, res) => {
 goalController.getAll = async (req, res) => {
     try {
         let goals = await models.goal.findAll()
+
         res.json({goals})
     } catch (error) {
         res.json({error})
@@ -72,6 +73,20 @@ goalController.update = async (req, res) => {
         res.json({final})
     } catch (error) {
         res.json({error})
+    }
+}
+
+goalController.mine = async (req, res) => {
+    try {
+        const user = await models.user.findOne({
+            where: {
+                id: req.headers.authorization
+            }
+        })
+        const goals = await user.getGoals()
+        res.json({ goals })
+    } catch (error) {
+        console.log(error)
     }
 }
 

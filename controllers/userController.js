@@ -38,4 +38,22 @@ userController.login = async (req, res) => {
     }
 }
 
+
+
+userController.verify = async (req, res) => {
+    try {
+        const decryptedId = await jwt.verify(req.headers.authorization, process.env.JWT_SECRET)
+        const user = await models.user.findOne({
+            where:{id: decryptedId.userId},
+            include:{model: models.goal}
+        })
+        console.log(user);
+        if(user){res.json({user,message:'user found'})}
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({error:error.message})
+    }
+}
+
+
 module.exports = userController
